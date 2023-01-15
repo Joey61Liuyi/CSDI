@@ -7,14 +7,17 @@ import requests
 import pandas as pd
 import pickle
 
-os.makedirs("data/", exist_ok=True)
-if sys.argv[1] == "physio":
-    url = "https://physionet.org/files/challenge-2012/1.0.0/set-a.tar.gz?download"
-    wget.download(url, out="data")
-    with tarfile.open("data/set-a.tar.gz", "r:gz") as t:
-        t.extractall(path="data/physio")
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
-elif sys.argv[1] == "pm25":
+os.makedirs("data/", exist_ok=True)
+# if sys.argv[1] == "physio":
+url = "https://physionet.org/files/challenge-2012/1.0.0/set-a.tar.gz?download"
+wget.download(url, out="data")
+with tarfile.open("data/set-a.tar.gz", "r:gz") as t:
+    t.extractall(path="data/physio")
+
+if sys.argv[1] == "pm25":
     url = "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/06/STMVL-Release.zip"
     urlData = requests.get(url).content
     filename = "data/STMVL-Release.zip"
